@@ -44,3 +44,10 @@
 .concl { font-size: 3cqw; background: #fff1f0; border-radius: 8px; padding: 2cqw 2.6cqw; margin-bottom: 2.4cqw; }
 .concl b { color: var(--accent); font-size: 4cqw; }
 .slide.mini { box-shadow: var(--shadow); }
+
+/* ---------- PC 화면 ---------- */
+.pc .hero { text-align: left; }
+.pc .thermo { margin: 0 0 10px; height: 150px; }
+.pc body[data-page=vent] textarea { min-height: 260px; }
+.pc body[data-page=report] .viewer, .pc body[data-page=report] main > section > .row,
+.pc body[data-page=report] main > section > a { max-width: 980px; width: 100%; margin-left: auto; margin-right: auto; }
