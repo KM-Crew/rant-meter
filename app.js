@@ -108,10 +108,10 @@ Router.on('/vent', root => {
   who.oninput = () => { st.who = who.value.trim() || 'A팀원'; save(); };
   const free = $('#free');
   FREE.forEach(f => {
-    const row = h(`<div class="frow"><span class="grow">${f.label}</span><button class="btn ghost step" data-d="-1">−</button><b class="n">${st.counts[f.id] || 0}</b><button class="btn ghost step" data-d="1">+</button></div>`);
+    const row = h(`<div class="frow"><span class="grow">${f.label}</span><button class="btn ghost step" data-nosfx data-d="-1" aria-label="${esc(f.label)} 하나 빼기">−</button><b class="n">${st.counts[f.id] || 0}</b><button class="btn ghost step" data-nosfx data-d="1" aria-label="${esc(f.label)} 하나 더하기">+</button></div>`);
     $$('.step', row).forEach(b => b.onclick = () => {
       st.counts[f.id] = clamp((st.counts[f.id] || 0) + Number(b.dataset.d), 0, 9);
-      $('.n', row).textContent = st.counts[f.id]; save(); vibrate(10);
+      $('.n', row).textContent = st.counts[f.id]; save(); vibrate(10); Sfx.play('pop');
     });
     free.append(row);
   });
