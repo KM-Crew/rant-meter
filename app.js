@@ -189,6 +189,7 @@ Router.on('/report', root => {
     <section class="stack">
       <div class="row"><h2 style="margin:0">발표자료</h2><span class="grow"></span><span class="muted small" id="pg"></span></div>
       <div class="viewer" id="viewer"><div id="stage"></div></div>
+      <p class="muted small center">슬라이드 클릭·Space·→ 다음 장 / ← 이전 장 / ⛶ 전체 화면(Esc로 나가기)</p>
       <div class="row"><button class="btn grow" id="prev">← 이전</button><button class="btn grow" id="next">다음 →</button><button class="btn" id="fs">⛶</button></div>
       <div class="row"><button class="btn primary grow" id="save">이 장 이미지 저장</button><button class="btn grow" id="saveall">전체 저장</button></div>
       <a class="btn ghost block" href="#/vent">← 내용 고치기</a>
@@ -205,7 +206,17 @@ Router.on('/report', root => {
     for (let k = 0; k < slides.length; k++) { i = k; show(); await saveImage($('.slide', stage), `report-${k + 1}.png`); }
     i = keep; show();
   };
-  const key = e => { if (e.key === 'ArrowRight') move(1); if (e.key === 'ArrowLeft') move(-1); };
+  // 발표 프로그램과 같은 키: 다음 = →·↓·PageDown·Space·Enter·N, 이전 = ←·↑·PageUp·Backspace·P, 처음/끝 = Home/End
+  const NEXT = ['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter', 'n', 'N'];
+  const PREV = ['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace', 'p', 'P'];
+  const key = e => {
+    if (e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(e.target.tagName) && e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    if (NEXT.includes(e.key)) { e.preventDefault(); move(1); }
+    else if (PREV.includes(e.key)) { e.preventDefault(); move(-1); }
+    else if (e.key === 'Home') { e.preventDefault(); i = 0; show(); }
+    else if (e.key === 'End') { e.preventDefault(); i = slides.length - 1; show(); }
+  };
+  stage.addEventListener('click', () => move(1));            // 슬라이드를 누르면 다음 장(발표 화면과 같음)
   addEventListener('keydown', key);
   let sx = null;
   stage.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
