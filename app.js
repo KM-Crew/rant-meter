@@ -57,7 +57,9 @@ function angerLabel(s) {
 
 /* ---------- 랜딩 ---------- */
 Router.on('/', root => {
-  root.append(h(`
+  const wrap = h('<div class="split center"></div>');
+  root.append(wrap);
+  wrap.append(h(`
     <section class="hero">
       <div class="thermo"><i></i></div>
       <h1>팀플 하다<br>열받았나요?</h1>
@@ -65,7 +67,7 @@ Router.on('/', root => {
       <a class="btn primary big block" href="#/vent">털어놓기</a>
       <div class="notice" style="margin-top:14px">실명은 넣지 마세요. 이름처럼 보이면 자동으로 "A팀원"으로 바꾸고, 욕설은 결과물에서 ●●로 가려요. 입력한 글은 저장·전송되지 않아요.</div>
     </section>`));
-  root.append(h(`
+  wrap.append(h(`
     <section class="sample">
       <h2>이런 걸 만들어 드려요</h2>
       <div class="slide mini s-cover"><div class="kicker">협업 실태 분석 보고서</div><div class="st">팀 프로젝트 무임승차의<br>구조적 원인과 대응 방안</div><div class="by">— A팀원 사례를 중심으로</div></div>
@@ -75,7 +77,8 @@ Router.on('/', root => {
 /* ---------- 털어놓기 ---------- */
 Router.on('/vent', root => {
   root.append(h(`
-    <section class="stack">
+    <section class="split">
+      <div class="stack">
       <h1>털어놓기</h1>
       <div class="card">
         <div class="row"><b>분노 게이지</b><span class="grow"></span><span id="label" class="lbl">부처님 모드</span></div>
@@ -84,10 +87,13 @@ Router.on('/vent', root => {
       </div>
       <textarea id="t" rows="7" placeholder="예) 회의 세 번 연속 안 오더니 발표 전날 '나 뭐 하면 돼?' 이러는 거 실화냐?? 진짜 어이가 없어서…"></textarea>
       <div class="row"><label class="small muted" for="who">상대 호칭</label><input id="who" type="text" style="max-width:140px" maxlength="8"><span class="grow"></span><button class="btn ghost" id="mic">🎤 말로 하기</button></div>
+      </div>
+      <div class="stack">
       <h2>무임승차 체크리스트</h2>
       <p class="muted small">해당하는 일이 몇 번 있었나요?</p>
       <div class="free" id="free"></div>
       <button class="btn primary big block" id="go">분석하기</button>
+      </div>
     </section>`));
   const t = $('#t'), who = $('#who');
   t.value = st.text; who.value = st.who;
